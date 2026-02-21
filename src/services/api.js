@@ -8,5 +8,5 @@ export const apiBooksUrl = {
 //"http://localhost:3001/api"
 //"https://bookstore-node-oor6.onrender.com/api"
 export const apiUrl = axios.create({
-  baseURL: "http://localhost:3001/api"
+  baseURL: "https://bookstore-node-oor6.onrender.com/api"
 })
