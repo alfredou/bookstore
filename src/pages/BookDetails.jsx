@@ -7,24 +7,30 @@ import { useEffect } from 'react';
 import Rate from '../components/Rate/Rate';
 import Comments from "../components/Comments/Comments";
 import { apiBooksUrl } from "../services/api";
+import BookDetailsSkeleton from '../components/Skeletons/BookDetailsSkeleton';
 
 function Bookdetails() {
     const location = useLocation();
     const id = location.pathname.split("/")[2]
     const { setBookList, setName } = useBookContext();
 
-    useEffect(()=>{    
+    useEffect(() => {
         setBookList([])
         setName('')
     }, [])
 
-    const { data } = useFetch(`${apiBooksUrl.singleBook}/${id}`)
+    const { data, loading } = useFetch(`${apiBooksUrl.singleBook}/${id}`)
+
+    if (loading) {
+        return <BookDetailsSkeleton />
+    }
+
     return (
         <>
-            <StoreItem {...data}/>
+            <StoreItem {...data} />
             <div className="ratingform__container">
-                <Comments isbn13={id}/>
-                <Rate {...data}/>
+                <Comments isbn13={id} />
+                <Rate {...data} />
             </div>
         </>
     )

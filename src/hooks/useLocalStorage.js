@@ -12,7 +12,12 @@ export function useLocalStorage(key, initialValue) {
     })
 
     useEffect(() => {
-        localStorage.setItem(key, JSON.stringify(value))
+        // Avoid saving undefined into localStorage (it would become the string "undefined").
+        if (typeof value === 'undefined' || value === undefined) {
+            localStorage.removeItem(key)
+        } else {
+            localStorage.setItem(key, JSON.stringify(value))
+        }
     }, [key, value])
 
     return [value, setValue]

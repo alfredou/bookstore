@@ -1,0 +1,253 @@
+.carousel-section {
+    padding: 80px 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-title {
+    font-size: clamp(2rem, 6vw, 2.8rem);
+    font-weight: 900;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, var(--primary), #8b5cf6);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.section-subtitle {
+    color: var(--muted);
+    font-size: 1.15rem;
+}
+
+.carousel {
+    position: relative;
+    width: 100%;
+}
+
+.carousel__track-container {
+    overflow: hidden;
+    position: relative;
+    border-radius: 32px;
+    background: var(--surface);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+}
+
+body:not(.dark-mode) .carousel__track-container {
+    background: white;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+}
+
+.carousel__track {
+    display: flex;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    height: 450px;
+}
+
+.carousel__slide {
+    min-width: 100%;
+    height: 100%;
+    padding: 20px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel__card {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    max-width: 900px;
+    width: 100%;
+}
+
+.carousel__image-container {
+    flex: 0 0 220px;
+    height: 320px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+body:not(.dark-mode) .carousel__image-container {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.carousel__card:hover .carousel__image-container {
+    transform: perspective(1000px) rotateY(-12deg) scale(1.08) translateY(-10px);
+}
+
+.carousel__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel__content {
+    flex: 1;
+}
+
+.carousel__book-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    color: var(--text);
+}
+
+body.dark-mode .carousel__book-title {
+    color: #fff;
+}
+
+.carousel__book-price {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 30px;
+    display: block;
+}
+
+.carousel__link {
+    display: inline-block;
+    padding: 16px 36px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 16px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(91, 74, 184, 0.25);
+}
+
+.carousel__link:hover {
+    transform: translateY(-4px);
+    filter: brightness(1.1);
+    box-shadow: 0 12px 25px rgba(91, 74, 184, 0.35);
+}
+
+.carousel__btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: var(--surface);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border);
+    color: var(--text);
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+body.dark-mode .carousel__btn {
+    color: #fff;
+}
+
+body:not(.dark-mode) .carousel__btn {
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.carousel__btn:hover {
+    background: var(--primary);
+    color: #fff;
+    transform: translateY(-50%) scale(1.15);
+    border-color: var(--primary);
+}
+
+.carousel__btn--prev {
+    left: -27px;
+}
+
+.carousel__btn--next {
+    right: -27px;
+}
+
+.carousel__dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 40px;
+}
+
+.carousel__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(var(--primary-rgb), 0.15);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel__dot.active {
+    width: 35px;
+    border-radius: 6px;
+    background: var(--primary);
+}
+
+.carousel-skeleton {
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    border-radius: 32px;
+    margin: 60px 0;
+    color: var(--muted);
+    border: 1px solid var(--color-border);
+}
+
+@media (max-width: 768px) {
+    .carousel__track {
+        height: auto;
+    }
+
+    .carousel__slide {
+        padding: 40px 20px;
+    }
+
+    .carousel__card {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .carousel__image-container {
+        flex: 0 0 180px;
+        height: 260px;
+    }
+
+    .carousel__book-title {
+        font-size: 1.6rem;
+    }
+
+    .carousel__btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    .carousel__btn--prev {
+        left: 10px;
+    }
+
+    .carousel__btn--next {
+        right: 10px;
+    }
+}

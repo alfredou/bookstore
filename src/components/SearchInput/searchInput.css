@@ -1,31 +1,105 @@
-.home__containerinput{
+.home__containerinput {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 5px;
-    margin-top: 50px;
+    gap: 10px;
+    margin-top: 36px;
 }
-.home__inputclose{
+
+.home__inputclose {
     font-size: 20px;
     color: #fff;
 }
+
 .home__input {
-    max-width: 160px;
-    height: 25px;
+    width: min(640px, 86%);
+    max-width: 640px;
+    height: 44px;
     outline: none;
-    border: none;
-    border-radius: .2rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+    padding: 0 16px;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text);
+    transition: box-shadow .18s ease, border-color .18s ease, transform .08s ease;
 }
+
 .home__input::placeholder {
-    padding: 10px;
+    color: var(--muted);
+    opacity: 0.8;
+}
+
+/* Light mode background for input to make it stand out */
+body:not(.dark-mode) .home__input {
+    background: rgba(91, 74, 184, 0.05) !important;
+    border-color: rgba(91, 74, 184, 0.1);
 }
 
 .home__input:focus-within {
-    padding: 10px;
+    box-shadow: 0 6px 18px rgba(2, 6, 23, 0.45), 0 0 0 6px rgba(91, 74, 184, 0.06);
+    border-color: var(--primary);
 }
 
 .home__loupe {
-    width: 27px;
-    height: 27px;
+    width: 44px;
+    height: 44px;
     padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(91, 74, 184, 0.14);
+    transition: transform .12s ease, filter .12s ease;
+}
+
+.home__loupe:hover {
+    transform: translateY(-1px);
+    filter: brightness(.98);
+}
+
+@media (max-width: 880px) {
+    .home__input {
+        width: min(440px, 92%);
+    }
+
+    .home__loupe {
+        width: 40px;
+        height: 40px
+    }
+}
+
+.home__input--invalid {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+}
+
+.search__error {
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ef4444;
+    font-size: 0.75rem;
+    font-weight: 500;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+}
+
+.search__error--visible {
+    opacity: 1;
+}
+
+.search-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }

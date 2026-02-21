@@ -1,18 +1,80 @@
-  .orders__title{
-     text-align: center;
-     margin-bottom: 50px;
-  }
+.orders__title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 2rem;
+  position: relative;
+  text-align: left;
+}
+
+.orders__title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 4px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+.orderlist {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 1rem;
+  background: var(--bg-solid);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.orderlist th {
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 1.2rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.orderlist td {
+  padding: 1.2rem 1rem;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.2s ease;
+}
+
+.orderlist tr:last-child td {
+  border-bottom: none;
+}
+
+.orderlist tr:hover td {
+  background: var(--color-surface);
+}
+
+.orderlist a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.orderlist a:hover {
+  text-decoration: underline;
+}
+
+/* Dark mode overrides for explicit color requests */
+body.dark-mode .orders__title {
+  color: #ffffff;
+}
+
+@media (max-width: 600px) {
   .orderlist {
-    margin: 0 auto; 
-    border-collapse: collapse; /* Combina bordes de celdas adyacentes en uno solo */
-    min-width: 350px; /* Establece el ancho de la tabla al 100% del contenedor */
-    max-width: 700px;
-    width: 100%;
+    display: block;
+    overflow-x: auto;
   }
-  
-  .orderlist th, .orderlist td {
-    border: 1px solid #ccc; /* Define el borde de celdas th y td */
-    padding: 8px; /* Agrega espacio interno para un mejor aspecto */
-    text-align: left; /* Alinea el texto a la izquierda dentro de las celdas */
-  }
-  
+}

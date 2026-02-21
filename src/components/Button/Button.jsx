@@ -1,7 +1,7 @@
 import React from 'react';
 import './Button.css';
 //para hoy cambiar el nombre del dominio y arreglar los estilos de la tabla de ordenes
-const STYLES = ['btn--blue', 'btn--red', 'btn--test'];
+const STYLES = ['btn--blue', 'btn--red', 'btn--test', 'btn--primary--solid'];
 
 const SIZES = ['btn--medium', 'btn--small', 'btn--large'];
 
@@ -10,7 +10,9 @@ const Button = ({
   type,
   onClick,
   buttonStyle,
-  buttonSize
+  buttonSize,
+  disabled,
+  loading
 }) => {
   const checkButtonStyle = STYLES.includes(buttonStyle)
     ? buttonStyle
@@ -20,11 +22,12 @@ const Button = ({
 
   return (
     <button
-      className={`${checkButtonStyle} ${checkButtonSize}`}
+      className={`${checkButtonStyle} ${checkButtonSize} ${loading ? 'btn--loading' : ''}`}
       onClick={onClick}
       type={type}
+      disabled={disabled || loading}
     >
-      {children}
+      {loading ? <span className="btn__spinner"></span> : children}
     </button>
   );
 };

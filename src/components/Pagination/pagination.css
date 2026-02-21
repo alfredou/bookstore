@@ -1,33 +1,73 @@
 .pagination{
     display: flex;
-    gap: 10px; 
+    gap: 12px;
     justify-content: center;
-    margin: 150px 0 50px 0;
-    padding: 15px;
+    margin: 40px 0 36px 0;
+    padding: 8px 12px;
+    align-items: center;
 }
 
-.pagination__prev, .pagination__next{
-    width: 25px;
-    height: 25px;
+.pagination__nav{
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.03);
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.04);
+    cursor: pointer;
+    transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
 }
+.pagination__nav.disabled{
+    opacity: .35;
+    cursor: default;
+    transform: none;
+}
+.pagination__nav:not(.disabled):hover{
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(2,6,23,0.45);
+}
+
 .pagination__list{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 12px;
-    width: 300px;
+    gap: 10px;
+    padding: 6px 10px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 12px;
 }
+
 .pagination__pages{
-    width: 28px;
-    height: 28px;
-    padding: 5px;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background .12s ease, transform .08s ease, color .12s ease, border-color .12s ease;
+}
+.pagination__pages:hover{
+    transform: translateY(-2px);
+    background: rgba(91,74,184,0.06);
+    border-color: rgba(91,74,184,0.14);
 }
 .pagination__active{
-    border: 2px solid steelblue;
-    padding: 5px;
-    color: steelblue;
+    background: var(--primary);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 8px 18px rgba(91,74,184,0.18);
 }
-.pagination__hover:hover{
-    border: 1px solid steelblue;
-    cursor: pointer;
+
+@media (max-width: 600px){
+    .pagination{gap:8px;margin:28px 0}
+    .pagination__nav{width:36px;height:36px}
+    .pagination__pages{min-width:30px;height:30px;padding:0 8px}
 }

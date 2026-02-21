@@ -1,66 +1,87 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
+/**
+ * useImageUpload Hook
+ * 
+ * Note: DataTransfer is NOT obsolete; it is the standard API for Drag and Drop.
+ * It is how you access the files property on a 'drop' event.
+ * 
+ * However, we've modernized the visualization logic to use URL.createObjectURL
+ * for better performance and added cleanup to prevent memory leaks.
+ */
 function useImageUpload() {
-  const [image, setImage] = useState([]);
+  const [images, setImages] = useState([]); // Base64 for backend compatibility
+  const [previews, setPreviews] = useState([]); // Blob URLs for fast UI rendering
   const [active, setActive] = useState(false);
-  
-  const handleDrop=(e)=> {
+
+  // Cleanup Blob URLs to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      previews.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [previews]);
+
+  const processFiles = useCallback((fileList) => {
+    const validExtensions = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
+    const acceptedFiles = Array.from(fileList).filter(file =>
+      validExtensions.includes(file.type)
+    );
+
+    if (acceptedFiles.length === 0 && fileList.length > 0) {
+      window.alert("No valid images selected (JPEG, JPG, PNG, GIF only)");
+      return;
+    }
+
+    // Create Previews (Fast)
+    const newPreviews = acceptedFiles.map(file => URL.createObjectURL(file));
+    setPreviews(newPreviews);
+
+    // Create Base64 for Backend (Cloudinary)
+    acceptedFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImages([e.target.result]); // Keeping it as an array for backward compatibility
+      };
+      reader.readAsDataURL(file);
+    });
+  }, []);
+
+  const handleDrop = (e) => {
     e.preventDefault();
-    const files = e.dataTransfer.files;
-    showFiles(files)
-    setActive(false)
-  }
- 
- const showFiles = (files)=>{
-     if(files.length === undefined){
-       processFile(files)
-     }else{
-       for(const file of files){
-         processFile(file)
-       }
-     }
- }
- const processFile = (file)=>{
-   let docType = file.type
+    setActive(false);
 
-  const validExtensions = ["image/jpeg", "image/jpg", "image/png", "image/gif"]; 
+    // DataTransfer.files is the standard way to get files from a drop event
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      processFiles(e.dataTransfer.files);
+    }
+  };
 
-  if(validExtensions.includes(docType)){
-      const fileReader = new FileReader()
-      const id = `file-${Math.random().toString(32).substring(7)}`
-      
-      fileReader.addEventListener("load", (e)=>{
-         const fileUrl = fileReader.result
-         
-         //setImage((prev)=> [...prev, fileUrl])
-         setImage([fileUrl])
-      })
-      //función de devolución de llamada que se ejecuta cuando el archivo ha sido leído. 
-      fileReader.readAsDataURL(file)
-     //window.alert("archivo valido")
-   }else{
-    window.alert("no es un archivo valido")
-   }
- }
-  
-  const handleDragOver=(event)=> {
-    event.preventDefault();
-    setActive(true)
-  }
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setActive(true);
+  };
 
-  const handleDragLeave=(event)=>{
-    event.preventDefault();
-    setActive(false)
-  }
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setActive(false);
+  };
+
+  const clearFiles = useCallback(() => {
+    setFiles([]);
+    setImages([]);
+    setPreviews([]);
+  }, []);
 
   return {
     handleDragLeave,
     handleDragOver,
     handleDrop,
-    showFiles,
-    active,  
-    image
-  }
-}  
-  export default useImageUpload;
-  
+    showFiles: processFiles,
+    clearFiles,
+    active,
+    image: images, // Maintaining 'image' name for compatibility with Upload.jsx
+    previews       // New property for performance-oriented UIs
+  };
+}
+
+export default useImageUpload;

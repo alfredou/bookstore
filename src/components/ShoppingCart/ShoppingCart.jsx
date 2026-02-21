@@ -40,7 +40,7 @@ export function ShoppingCart({ isOpen }) {
             apiUrl.post(`/stripe/create-checkout-session`, {
                 NcartItems,
                 userId: user._id
-            },{
+            }, {
                 withCredentials: true // Habilitar el manejo de cookies en Axios
             }).then((res) => {
                 if (res.data.url) {
@@ -50,39 +50,57 @@ export function ShoppingCart({ isOpen }) {
             }).catch((e) => console.log(e.message))
         }
     }
- const handleCloseCart = (e)=>{
-     if(e.target.id == "cartmenu"){
-        closeCart()
-     }
- }
+    const handleCloseCart = (e) => {
+        if (e.target.id == "cartmenu") {
+            closeCart()
+        }
+    }
     return (
-        <div className={isOpen ? `cartmenu__bg` : ``} onClick={handleCloseCart} id="cartmenu">
+        <div className={isOpen ? `cartmenu__bg active` : `cartmenu__bg`} onClick={handleCloseCart} id="cartmenu">
             <div className={isOpen ? `cartmenu active` : 'cartmenu'}>
                 <div className="cartmenu__top">
-                    <span className="cartmenu__items">Cart ({cartQuantity} items)</span>
+                    <span className="cartmenu__items">Cart ({cartQuantity} books)</span>
                     <FontAwesomeIcon icon={faCircleXmark}
                         className="cartmenu__close"
                         onClick={() => closeCart()}
                     />
                 </div>
-                <div className="cartmenu__elements">
-                    <div className="cartmenu__element">
-                        {cartItems.map(item => (
-                            <CartItem key={item.id} {...item} />
-                        ))}
-                        <div className="cartmenu__subtotal">
-                            SubTotal{" "}
-                            {formatCurrency(
-                                handleSubTotal()
-                            )}
+
+                <div className="cartmenu__content">
+                    {cartQuantity === 0 ? (
+                        <div className="cartmenu__empty">
+                            <p>Your cart is empty</p>
+                            <Button buttonStyle="btn--blue" onClick={() => {
+                                closeCart()
+                                navigate('/books')
+                            }}>Explore books</Button>
                         </div>
-                        {cartQuantity == 0 ? <Button buttonStyle="btn--blue" onClick={() => {
-                            closeCart()
-                            navigate('/')
-                        }}>add Books to cart</Button> :
-                            <Button buttonStyle="btn--blue" onClick={handlePay}>{(user) ? `Pay with stripe` : `Login to Check out`}</Button>}
-                    </div>
+                    ) : (
+                        <div className="cartmenu__items-list">
+                            {cartItems.map(item => (
+                                <CartItem key={item.id} {...item} />
+                            ))}
+                        </div>
+                    )}
                 </div>
+
+                {cartQuantity > 0 && (
+                    <div className="cartmenu__footer">
+                        <div className="cartmenu__subtotal-row">
+                            <span>Subtotal</span>
+                            <span className="cartmenu__subtotal-amount">
+                                {formatCurrency(handleSubTotal())}
+                            </span>
+                        </div>
+                        <Button
+                            buttonStyle="btn--primary--solid"
+                            className="cartmenu__pay-btn"
+                            onClick={handlePay}
+                        >
+                            {user ? `Pay with Stripe` : `Log in to pay`}
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     )

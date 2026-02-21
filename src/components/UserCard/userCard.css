@@ -1,86 +1,233 @@
-.profile__info{
+.profile__info {
     display: flex;
-    height: 89vh;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: 50px;
+    min-height: calc(100vh - 80px);
+    /* Adjust based on navbar height if known */
+    padding: 2rem 5%;
+    gap: 2.5rem;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-/*usercard*/
-.usercard{
-   width: 300px;
-   height: 300px; 
-   box-shadow: 0px 0px 12px -5px rgba(0, 0, 0, .5);
-   background-color: #fff;
-   display: grid;
-   margin-left: 25px;
+/* User Card Sidebar */
+.usercard {
+    width: 320px;
+    background: var(--bg-solid);
+    background-color: var(--color-surface);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--color-border);
+    border-radius: 24px;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: sticky;
+    top: 100px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.user__info{
-    display: flex; 
-    gap: 30px; 
-    padding: 25px;
+
+.usercard:hover {
+    box-shadow: 0 15px 50px -12px rgba(0, 0, 0, 0.15);
 }
-.usercard__imgcontainer{
-    position: relative;
-    cursor: pointer;
-}
-.usercard__data{
-    display: grid;
-    gap: 8px;
-}
-.usercard__img{
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border: 2px solid #5a5af5;
-}
-.usercard__email{
-   font-size: 1.1rem;
-}
-.usercard__date{
-    opacity: .8;
-}
-.cardtabs{
-    width: 100%; 
-    height: inherit;
-    text-decoration: none;
-    list-style: none;
-    padding: 15px;
+
+.user__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
     text-align: center;
+}
+
+.usercard__imgcontainer {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.usercard__img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary);
+    padding: 4px;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: var(--bg-solid);
+}
+
+.usercard__imgcontainer:hover .usercard__img {
+    transform: scale(1.05) rotate(5deg);
+    filter: brightness(0.7);
+}
+
+.usercard__img-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.usercard__imgcontainer:hover .usercard__img-overlay {
+    opacity: 1;
+}
+
+.usercard__data {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.usercard__username {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.usercard__email {
+    font-size: 0.95rem;
+    color: var(--color-muted);
+    font-weight: 500;
+}
+
+.usercard__date {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    margin-top: 0.5rem;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+/* Tabs Navigation */
+.cardtabs {
+    list-style: none;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cardtabs__title {
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
     cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    color: var(--color-text);
+    font-weight: 500;
 }
-.cardtabs__title{
-    padding: 15px;
-    margin-bottom: 5px;
-    transition: border .1s ease-in-out;
+
+.cardtabs__title:hover {
+    background-color: var(--color-surface);
+    transform: translateX(5px);
 }
-.cardtabs__title:hover{
-    border: 2px solid #5a5af5;
+
+.cardtab__selected {
+    background-color: var(--primary) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(91, 74, 184, 0.3);
 }
-.cardtab__selected{
-    background-color: #5a5af5;     
+
+.cardtab__selected .cardtabs__text {
     color: #fff;
 }
 
-/*tabs*/
-.profileinfo__container{
-    flex-grow: 4;
+.cardtabs__icon {
+    margin-right: 1rem;
+    font-size: 1.1rem;
+    width: 20px;
+    /* Ensure uniform icon width */
 }
 
-@media (max-width: 768px){
-    .profile__info{
-        margin-top: 25px;
+.cardtabs__text {
+    font-size: 1rem;
+}
+
+/* Content Container */
+.profileinfo__container {
+    flex: 1;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    min-height: 500px;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark Mode Overrides (if variables aren't enough) */
+body.dark-mode .usercard {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+body.dark-mode .profileinfo__container {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .profile__info {
         flex-direction: column;
-        height: 0% !important;
+        align-items: center;
+        padding: 1.5rem;
     }
-    .usercard{
-        margin-left: 0px;
-     }
+
+    .usercard {
+        width: 100%;
+        max-width: 600px;
+        position: static;
+        margin: 0;
+    }
+
+    .user__info {
+        flex-direction: row;
+        text-align: left;
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+
+    .usercard__img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .cardtabs {
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 0.8rem;
+    }
+
+    .cardtabs__title {
+        flex: 1;
+        justify-content: center;
+        white-space: nowrap;
+        padding: 0.8rem;
+    }
+
+    .cardtabs__title:hover {
+        transform: none;
+    }
+
+    .profileinfo__container {
+        width: 100%;
+        padding: 1.5rem;
+    }
 }
 
-/*darkmode*/
-body.dark-mode .usercard{
-       background-color: var(--darklight-color);
-}
+@media (max-width: 600px) {
+    .user__info {
+        flex-direction: column;
+        text-align: center;
+    }
 
+    .cardtabs {
+        flex-wrap: wrap;
+    }
+
+    .cardtabs__title {
+        font-size: 0.9rem;
+    }
+}
