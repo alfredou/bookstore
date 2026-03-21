@@ -14,7 +14,7 @@ const notify = () => toast.success('Review submitted successfully!', {
 
 const submitError = () => toast.error('Please provide both a rating and a comment');
 
-function Rate({ isbn13 }) {
+function Rate({ isbn13, onCommentPosted }) {
   const [rating, setRating] = useState(null)
   const [hover, setHover] = useState(null)
   const [comment, setComment] = useState('')
@@ -55,8 +55,9 @@ function Rate({ isbn13 }) {
         setRating(null)
         setHover(null)
         setComment('')
-        // Force a small refresh of the comments would be ideal here
-        // but for now we reset the local state
+        
+        // Ejecutamos el callback para refrescar inmediatamente los comentarios hermanos
+        if (onCommentPosted) onCommentPosted();
       }
     }).catch(err => {
       console.error(err)

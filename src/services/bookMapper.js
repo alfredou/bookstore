@@ -2,7 +2,7 @@ export const transformGoogleBook = (item) => {
     if (!item) return null;
     const volumeInfo = item.volumeInfo || {};
     const saleInfo = item.saleInfo || {};
-    
+
     // Find ISBN13, fallback to Google ID
     let isbn13 = item.id;
     if (volumeInfo.industryIdentifiers) {

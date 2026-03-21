@@ -14,7 +14,8 @@ const useFetch = (url) => {
             setLoading(true)
             try {
                 const res = await axios.get(url)
-                const isSingleBook = url.includes('q=isbn:');
+                // A request evaluates as single book if it doesn't have the maxResults param used for lists
+                const isSingleBook = url && !url.includes('maxResults=');
                 const mappedData = transformGoogleResponse(res.data, isSingleBook);
                 
                 if (mappedData.books && mappedData.books.length === 0) {
@@ -39,7 +40,7 @@ const useFetch = (url) => {
         try {
             //hara la petición otra vez y actualizara el estado de data
             const res = await axios.get(url)
-            const isSingleBook = url.includes('q=isbn:');
+            const isSingleBook = url && !url.includes('maxResults=');
             const mappedData = transformGoogleResponse(res.data, isSingleBook);
             setData(mappedData)
             //si ocurre un error actualiza el estado del error

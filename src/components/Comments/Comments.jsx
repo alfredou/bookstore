@@ -7,7 +7,7 @@ import { useBookContext } from "../../context/DataBooksContext";
 import { apiUrl } from "../../services/api";
 import { AuthContext } from "../../context/AuthContext";
 
-function Comments({ isbn13 }) {
+function Comments({ isbn13, refreshTrigger }) {
   const [comments, setComments] = useState([])
   const { setProductRatingReview } = useBookContext()
   const { user } = useContext(AuthContext)
@@ -36,7 +36,7 @@ function Comments({ isbn13 }) {
       console.error("Error fetching comments:", err);
       setComments([]);
     })
-  }, [isbn13, user])
+  }, [isbn13, user, refreshTrigger])
 
   return (
     <div className="comments">
