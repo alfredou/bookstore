@@ -71,7 +71,7 @@ function Register() {
                         setLoading(false)
                         const errorMessage = e.response?.data?.message || 'An error has ocurred';
                         toast.error(errorMessage);
-                        console.log(e);
+                        //console.log(e);
                     })
             }}>
 

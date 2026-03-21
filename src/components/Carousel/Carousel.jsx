@@ -19,7 +19,7 @@ const Carousel = () => {
             const res = await axios.get(apiBooksUrl.newBooks);
             const data = transformGoogleResponse(res.data);
             setBooks(data.books ? data.books.slice(0, 5) : []); // Show top 5
-            console.log(data.books ? data.books.slice(0, 5) : [])
+            //console.log(data.books ? data.books.slice(0, 5) : [])
             setLoading(false);
         } catch (error) {
             console.error('Error fetching featured books:', error);
