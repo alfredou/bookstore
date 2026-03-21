@@ -19,7 +19,7 @@ function Bookdetails() {
         setName('')
     }, [])
 
-    const { data, loading } = useFetch(`${apiBooksUrl.singleBook}/${id}`)
+    const { data, loading } = useFetch(apiBooksUrl.singleBook(id))
 
     if (loading) {
         return <BookDetailsSkeleton />

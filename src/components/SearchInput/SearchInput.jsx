@@ -1,12 +1,14 @@
 import "./searchInput.css"
 import React from "react";
 import { useState, useCallback } from "react"
+import { useSearchParams } from "react-router-dom";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import debounce from "just-debounce-it"
 
 function SearchInput({ updateName }) {
-  const [search, setSearch] = useState('')
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get('q') || '')
   const [error, setError] = useState('')
 
   const validateSearch = (value) => {

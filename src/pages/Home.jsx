@@ -55,7 +55,7 @@ export function Home() {
                         //if(bookList?.length === i + 1){
                         return <Link
                             data-testid={`booklist-${i}`}
-                            key={i}
+                            key={`${book?.isbn13}-${i}`}
                             to={`${book?.isbn13}`}
                             className="books__link"
                             onClick={(e) => {
@@ -87,11 +87,11 @@ export function Home() {
                                 </div>
                         </Link>
                         }*/}
-                    }) : loading ? Array.from({ length: 10 }).map((item) => <div key={item}><BookSkeleton /></div>) //<div className="spinner"></div> /** este loading al inicio era el que afectaba el infinite scrolling devolviendo la barra de scroll hacia arriba lo quite de arriba si no tiene utilidad lo quito de abajo, el infinite scrolling funciona poniendo el loading abajo de la iteracion de los datos*/                 
+                    }) : loading ? Array.from({ length: 10 }).map((_, index) => <div key={index}><BookSkeleton /></div>) //<div className="spinner"></div> /** este loading al inicio era el que afectaba el infinite scrolling devolviendo la barra de scroll hacia arriba lo quite de arriba si no tiene utilidad lo quito de abajo, el infinite scrolling funciona poniendo el loading abajo de la iteracion de los datos*/                 
                         : newbooks?.map((book, i) => (
                             <Link
                                 data-testid={`newbooks-${i}`}
-                                key={i}
+                                key={`${book.isbn13}-${i}`}
                                 to={`${book.isbn13}`}
                                 className="books__link"
                                 onClick={(e) => {

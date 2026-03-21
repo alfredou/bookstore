@@ -6,12 +6,7 @@ function PaginatedList({data, updatePage, name}) {
     const {currentPage, totalPages, goToPage, getPageNumbers} = usePagination(data?.total, data.books?.length)
     
     useEffect(()=>{
-        goToPage(1)
-    }, [name])
-
-    useEffect(()=>{//
         updatePage(currentPage);
-        //console.log("urlList", urlList)
      }, [currentPage])
  
     return (

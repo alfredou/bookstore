@@ -1,8 +1,17 @@
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 function usePagination(totalItems, itemsPerPage) {
-   const [currentPage, setCurrentPage] = useState(1)
+   const [searchParams] = useSearchParams();
+   const urlPage = parseInt(searchParams.get('p')) || 1;
+   
+   const [currentPage, setCurrentPage] = useState(urlPage)
    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+   // Sync currentPage when URL changes externally (like searching or browser back/forward)
+   useEffect(() => {
+       setCurrentPage(urlPage);
+   }, [urlPage]);
 
    const goToPage = (page)=>{
          if(page>=1 && page <= totalPages){

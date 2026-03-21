@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useBookContext } from "../../context/DataBooksContext";
 import useFetch from "../../hooks/useFetch";
 import { apiBooksUrl } from "../../services/api";
 
 export default function usePaginatedData (){
     const { bookList, newbooks, setNewBooks, setBookList} = useBookContext();
-    const [name, setName] = useState("") 
-    const [page, setPage] = useState(apiBooksUrl.newBooks)
+    const [searchParams, setSearchParams] = useSearchParams();
+    const name = searchParams.get('q') || "";
+    const page = parseInt(searchParams.get('p')) || 1;
 
     //const urlList = (page && name) ? apiBooksUrl.searchBooks(name, page) : apiBooksUrl.newBooks
     const urlList = (page && name) ? apiBooksUrl.searchBooks(name, page) : apiBooksUrl.newBooks
@@ -25,13 +27,20 @@ export default function usePaginatedData (){
           //console.log("pageNumber",page)
       }, [data])
     
-    const updateName = (name)=>{
-        setName(name)
+    const updateName = (newName)=>{
+        if (newName) {
+            setSearchParams({ q: newName, p: 1 });
+        } else {
+            setSearchParams({});
+        }
     }
-    const updatePage = (page)=>{
-        setPage(page)
-    }     
+    const updatePage = (newPage)=>{
+        if (name) {
+            searchParams.set('p', newPage);
+            setSearchParams(searchParams);
+        }
+    }    
     return {
-           loading, bookList, newbooks, data, updatePage, name, updateName, data
+           loading, bookList, newbooks, data, updatePage, name, updateName
     }
 }

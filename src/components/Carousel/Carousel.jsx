@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { apiUrl } from '../../services/api';
+import axios from 'axios';
+import { apiBooksUrl } from '../../services/api';
+import { transformGoogleResponse } from '../../services/bookMapper';
 import './carousel.css';
 
 const Carousel = () => {
@@ -14,9 +16,10 @@ const Carousel = () => {
     const fetchFeaturedBooks = async () => {
         try {
             // Fetching "new" books to use as featured content
-            const res = await fetch('https://api.itbook.store/1.0/new');
-            const data = await res.json();
-            setBooks(data.books.slice(0, 5)); // Show top 5
+            const res = await axios.get(apiBooksUrl.newBooks);
+            const data = transformGoogleResponse(res.data);
+            setBooks(data.books ? data.books.slice(0, 5) : []); // Show top 5
+            console.log(data.books ? data.books.slice(0, 5) : [])
             setLoading(false);
         } catch (error) {
             console.error('Error fetching featured books:', error);

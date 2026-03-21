@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from "react"
+import { transformGoogleResponse } from '../services/bookMapper';
 
 const useFetch = (url) => {
     const [data, setData] = useState([])
@@ -13,12 +14,15 @@ const useFetch = (url) => {
             setLoading(true)
             try {
                 const res = await axios.get(url)
-                if(res.data.books?.length === 0){
+                const isSingleBook = url.includes('q=isbn:');
+                const mappedData = transformGoogleResponse(res.data, isSingleBook);
+                
+                if (mappedData.books && mappedData.books.length === 0) {
                     setText('No more data available')
                     return
                 } 
-                setData(res.data)
-                setHasMore(res.data.books.length > 0)
+                setData(mappedData)
+                setHasMore(mappedData.books ? mappedData.books.length > 0 : false)
             } catch (err) {
                 setError(err)
             }
@@ -35,7 +39,9 @@ const useFetch = (url) => {
         try {
             //hara la petición otra vez y actualizara el estado de data
             const res = await axios.get(url)
-            setData(res.data)
+            const isSingleBook = url.includes('q=isbn:');
+            const mappedData = transformGoogleResponse(res.data, isSingleBook);
+            setData(mappedData)
             //si ocurre un error actualiza el estado del error
         } catch (err) {
             //actualiza el estado error con el error ocurrido si no se realiza la petición
