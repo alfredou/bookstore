@@ -26,6 +26,7 @@ export function UserInfo() {
             initialValues={{
                 username: user.username,
                 email: user.email,
+                oldPassword: '',
                 password: '',
                 repeatPassword: ''
             }}
@@ -44,6 +45,9 @@ export function UserInfo() {
                     errors.email = 'Invalid email format';
                 }
 
+                if (valores.password && !valores.oldPassword) {
+                    errors.oldPassword = 'Required to change password';
+                }
                 if (valores.password && !/^.{6,12}$/.test(valores.password)) {
                     errors.password = 'Password must be 6-12 characters'
                 }
@@ -55,9 +59,10 @@ export function UserInfo() {
             onSubmit={(credentials, { setSubmitting }) => {
                 const { repeatPassword, ...otherData } = credentials
 
-                // Only send password if it's actually changed
+                // Only send password & oldPassword if it's actually changed
                 if (!otherData.password) {
                     delete otherData.password;
+                    delete otherData.oldPassword;
                 }
 
                 apiUrl.patch(`/user/updateUser/${user._id}`, otherData, {
@@ -116,6 +121,23 @@ export function UserInfo() {
                             </div>
                             <ErrorMessage name="email" component={() => (
                                 <div className="error">{errors.email}</div>
+                            )} />
+                        </div>
+
+                        <div className="updateuser__container">
+                            <label htmlFor="oldPassword" className="updateuser__text">Current Password</label>
+                            <div className="updateuser__input-wrapper">
+                                <Field
+                                    type="password"
+                                    id="oldPassword"
+                                    name="oldPassword"
+                                    className="updateuser__input"
+                                    placeholder="Type current password to change it"
+                                />
+                                <FontAwesomeIcon icon={faLock} className="updateuser__input-icon" />
+                            </div>
+                            <ErrorMessage name="oldPassword" component={() => (
+                                <div className="error">{errors.oldPassword}</div>
                             )} />
                         </div>
 

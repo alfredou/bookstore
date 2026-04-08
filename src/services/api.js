@@ -23,6 +23,11 @@ export const apiBooksUrl = {
  */
 //"http://localhost:3001/api"
 //"https://bookstore-node-oor6.onrender.com/api"
+//api desplegada en aws lambda, solo responde a la url desplegada
+//https://cktbt1bdm0.execute-api.us-east-1.amazonaws.com/
 export const apiUrl = axios.create({
-  baseURL: "https://bookstore-node-oor6.onrender.com/api"
+  baseURL: "https://cktbt1bdm0.execute-api.us-east-1.amazonaws.com/api",
+  headers: {
+    'x-client-source': 'bookstore-react-app'
+  }
 })
